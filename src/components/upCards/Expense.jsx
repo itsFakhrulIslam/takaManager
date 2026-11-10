@@ -1,4 +1,9 @@
-const Expense = () => {
+const Expense = ({ transactions }) => {
+  const total_expense = transactions.filter(
+    (transaction) => transaction.getType == "expense",
+  );
+  console.log("expense", total_expense);
+
   return (
     <div className="card bg-base-200 card-md shadow-sm border-t-4 border-red-500">
       <div className="card-body">

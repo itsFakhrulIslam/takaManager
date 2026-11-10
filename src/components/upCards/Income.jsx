@@ -1,4 +1,9 @@
-const Income = () => {
+const Income = ({ transactions }) => {
+  const totol_income = transactions.filter(
+    (transaction) => transaction.getType == "income",
+  );
+  console.log("income", totol_income);
+
   return (
     <div className="card bg-base-200 card-md shadow-sm border-t-4 border-green-500">
       <div className="card-body">
