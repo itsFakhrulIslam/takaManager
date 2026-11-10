@@ -25,7 +25,13 @@ const expense_categories = [
 
 const Form = () => {
   const [getType, setGetType] = useState("income");
-    console.log(getType); 
+  console.log(getType);
+
+  const currentCategory =
+    getType == "income" ? income_categories : expense_categories;
+
+  const [getCategory, setGetCategory] = useState();
+  console.log(getCategory);
 
   return (
     <div>
@@ -50,7 +56,12 @@ const Form = () => {
               <label className="label">Choose the type</label>
               <select
                 value={getType}
-                onChange={(e) => setGetType(e.target.value)}
+                onChange={(e) => {
+                  setGetType(e.target.value);
+                  e.target.value == "income"
+                    ? setGetCategory(income_categories[0])
+                    : setGetCategory(expense_categories[0]);
+                }}
                 className="select select-primary"
               >
                 <option value="income">Income</option>
@@ -59,12 +70,16 @@ const Form = () => {
 
               <label className="label">Choose the category</label>
               <select
-                defaultValue="Pick a text editor"
+                defaultValue={income_categories[0]}
+                value={getCategory}
+                onChange={(e) => setGetCategory(e.target.value)}
                 className="select select-primary"
               >
-                <option disabled={true}>Select a category</option>
-                <option value="">Salary</option>
-                <option value="">Food</option>
+                {currentCategory.map((category, i) => (
+                  <option key={i} value={category}>
+                    {category}
+                  </option>
+                ))}
               </select>
 
               <label className="label">Date</label>
