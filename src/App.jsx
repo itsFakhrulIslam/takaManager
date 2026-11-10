@@ -5,6 +5,19 @@ import Expense from "./components/upCards/Expense";
 import Income from "./components/upCards/Income";
 
 function App() {
+  const addNewTransaction = (getFormData) => {
+
+    const isMoneyTrackerExist = window.localStorage.getItem("money_track");
+    if (isMoneyTrackerExist) {
+      const convertDataObj = JSON.parse(isMoneyTrackerExist);
+      const newArry = [getFormData, ...convertDataObj];
+      window.localStorage.setItem("money_track", JSON.stringify(newArry));
+    } else {
+      const convertDataStr = JSON.stringify([getFormData]);
+      window.localStorage.setItem("money_track", convertDataStr);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -18,7 +31,7 @@ function App() {
 
       {/* form area */}
       <div className="max-w-7xl mx-auto p-2">
-        <Form />
+        <Form addNewTransaction={addNewTransaction} />
       </div>
     </>
   );

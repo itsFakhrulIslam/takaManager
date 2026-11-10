@@ -23,15 +23,51 @@ const expense_categories = [
 ];
 // console.log(expense_categories);
 
-const Form = () => {
+const Form = ({ addNewTransaction }) => {
   const [getType, setGetType] = useState("income");
-  console.log(getType);
+  //   console.log(getType);
 
   const currentCategory =
     getType == "income" ? income_categories : expense_categories;
 
   const [getCategory, setGetCategory] = useState();
-  console.log(getCategory);
+  //   console.log(getCategory);
+
+  const [getTrxnName, setGetTrxnName] = useState("");
+  //   console.log(getTrxnName);
+
+  const [getTrxnAmount, setGetTrxnAmount] = useState("");
+  //   console.log(getTrxnAmount);
+
+  const [getDate, setGetDate] = useState(new Date());
+  //   console.log(getDate);
+
+  const formDataObj = {
+    id: crypto.randomUUID(),
+    getTrxnName,
+    getTrxnAmount,
+    getType,
+    getCategory,
+    getDate,
+  };
+  //   console.log(formDataObj);
+
+  const handleAddTransaction = () => {
+    // console.log("clicked transaction add btn and data submitted.");
+
+    if (getTrxnName == "" || getTrxnAmount <= 0) {
+      alert("Please fill the form exactly");
+      return;
+    }
+
+    addNewTransaction(formDataObj);
+
+    // reset field
+    setGetTrxnName("");
+    setGetTrxnAmount("");
+  };
+
+  // addNewTransaction()
 
   return (
     <div>
@@ -42,6 +78,8 @@ const Form = () => {
               <label className="label">Transaction Name</label>
               <input
                 type="text"
+                value={getTrxnName}
+                onChange={(e) => setGetTrxnName(e.target.value)}
                 className="input"
                 placeholder="Write transaction name."
               />
@@ -49,6 +87,8 @@ const Form = () => {
               <label className="label">Transaction Amount</label>
               <input
                 type="number"
+                value={getTrxnAmount}
+                onChange={(e) => setGetTrxnAmount(e.target.value)}
                 className="input"
                 placeholder="Write transaction amount. eg: 100tk"
               />
@@ -83,9 +123,19 @@ const Form = () => {
               </select>
 
               <label className="label">Date</label>
-              <input type="date" className="input" />
+              <input
+                type="date"
+                value={getDate}
+                onChange={(e) => setGetDate(e.target.value)}
+                className="input"
+              />
 
-              <button className="btn btn-neutral mt-4">Add</button>
+              <button
+                onClick={handleAddTransaction}
+                className="btn btn-neutral mt-4"
+              >
+                Add
+              </button>
             </fieldset>
           </div>
         </div>
